@@ -1,0 +1,126 @@
+<body>
+    <header></header>
+
+    <div class="container">
+
+        <div class="img-placed">
+            <!--<img src="https://i.imgur.com/YgmULQP.png" alt="">-->
+          <img >
+        </div>
+
+        <form action="">
+
+            <input type="text" name="amount" id="amount" placeholder="Enter Amount" required>
+
+            <label id="fromCurrencyName"></label>
+            <div id="select-field">
+
+                <select name="fromCurrency" id="fromCurrency" onchange="showFromCurrencyName()">
+                    <option value="USD" selected="">USD - US Dollar</option>
+                    <option value="EUR">EUR - Euro</option>
+                    
+                </select>
+    
+                
+                <select name="toCurrency" id="toCurrency" onchange="showCurrencyName()">
+                    <option value="BTC">Bitcoin (BTC)</option>
+                    <option value="ETH">Ethereum (ETH)</option>
+                    <option value="USDT">Tether (USDT)</option>
+                    
+                </select>
+
+            </div>
+
+            <br>
+
+            <button type="button" id="convert" class="primary-btn">
+                Convertir
+            </button>
+
+        </form>
+
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function showCurrencyName() {
+          var selectCurrency = document.getElementById("toCurrency");
+          var currencyName = selectCurrency.options[selectCurrency.selectedIndex].text;
+          document.getElementById("currencyName").innerHTML = currencyName;
+        }
+  
+        function showFromCurrencyName() {
+          var selectFromCurrency = document.getElementById("fromCurrency");
+          var fromCurrencyName = selectFromCurrency.options[selectFromCurrency.selectedIndex].text;
+          document.getElementById("fromCurrencyName").innerHTML = fromCurrencyName;
+        }
+
+            const amountInput = document.querySelector('#amount');
+            const fromCurrencySelect = document.querySelector('#fromCurrency');
+            const toCurrencySelect = document.querySelector('#toCurrency');
+            const convertButton = document.querySelector('#convert');
+            const resultParagraph = document.querySelector('#result');
+            
+            convertButton.addEventListener('click', () => {
+            const amount = amountInput.value;
+            const fromCurrency = fromCurrencySelect.value;
+            const toCurrency = toCurrencySelect.value;
+            const apiKey = "685419b6bedfb725bb6af07ed3dd6fef8f20a83f05c066d1eb20a10c563c7801";
+            const apiUrl = `https://min-api.cryptocompare.com/data/price?fsym=${toCurrency}&tsyms=${fromCurrency}&api_key=${apiKey}`;
+          
+            fetch(apiUrl)
+              .then(response => response.json())
+              .then(data => {
+                const rate = data[fromCurrency];
+                const result = amount / rate;
+          
+                resultParagraph.innerHTML = `${amount} ${fromCurrency} is equal to ${result.toFixed(8)} ${toCurrency}`;
+              })
+              .catch(error => {
+                resultParagraph.innerHTML = "Error: Unable to fetch exchange rate.";
+                console.error(error);
+              });
+          });
+            const express = require('express');
+const app = express();
+const axios = require('axios');
+const host = 'api.frankfurter.app';
+fetch(`https://${host}/latest?amount=1&from=USD&to=EUR`)
+  .then(resp => resp.json())
+  .then((data) => {
+    console.log("Price Of EUR per $",data["rates"]["EUR"])
+  });
+
+
+app.use(express.json()); // for parsing application/json
+
+app.listen(3000, () => {
+ console.log("Server running on port 3000");
+});
+
+app.get("/msg", (req, res) => {
+ res.json({"message": "Hello, World!"});
+});
+
+axios.get('https://api.binance.com/api/v3/avgPrice?symbol=BTCUSDT').then(response => {
+    const body = response.data;
+    console.log("Price of BTC in UDST: ", body.price);
+});
+
+axios.get('https://api.binance.com/api/v3/avgPrice?symbol=ETHUSDT').then(response => {
+    const body = response.data;
+    console.log("Price of ETH in UDST: ", body.price);
+});
+
+axios.get('https://api.binance.com/api/v3/avgPrice?symbol=ETHUSDT').then(response => {
+    const body = response.data;
+    console.log("Price of ETH in UDST: ", body.price);
+});
+
+    </script>
+</body>
+</html>
+
+
+
+
